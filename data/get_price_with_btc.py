@@ -33,14 +33,18 @@ def get_price_with_btc(client:Client, coins:list[str], interval: str, start: str
     for coin in coins:
         symbol = coin + qty
         filename = "{}_{}.csv".format(symbol, interval)
-        with open(filename, "w") as csv_writer:
-            writer = csv.writer(csv_writer)
-            writer.writerow(["open_ts", "open_price", "highest_price", "lowest_price", "close_price", "volume", "close_ts", "turnover", "trade_num", "buy_vol", "buy_turnover","ignore"])
+        try:
             klines = client.get_historical_klines_generator(symbol, interval, start)
-            for kline in klines:
-                print(kline)
-                writer.writerow(kline)
-            time.sleep(1)
+            with open(filename, "w") as csv_writer:
+                writer = csv.writer(csv_writer)
+                writer.writerow(["open_ts", "open_price", "highest_price", "lowest_price", "close_price", "volume", "close_ts", "turnover", "trade_num", "buy_vol", "buy_turnover","ignore"])
+                for kline in klines:
+                    print(kline)
+                    writer.writerow(kline)
+                time.sleep(1)
+        except Exception as e:
+            print(e)
+            continue
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] in ["-h", "--help", "help"]:
