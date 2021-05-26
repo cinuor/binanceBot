@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import csv
 import json
 import time
 from binance.client import Client
 
-api_key=os.environ["API_KEY"]
-api_secret=os.environ["API_SECRET"]
+api_key = os.environ["API_KEY"]
+api_secret = os.environ["API_SECRET"]
 
 def get_price_with_btc(client:Client, coins:list[str], start: str, qty:str = "BTC"):
     for coin in coins:
