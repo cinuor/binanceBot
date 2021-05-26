@@ -54,5 +54,5 @@ if __name__ == "__main__":
             data = f.read()
             coins = json.loads(data)
             print(sorted(coins))
-        #  get_price_with_btc(client, coins, INTERVAL[str(sys.argv[1])], "July 14, 2017 UTC",qty=str(sys.argv[2]))
+        get_price_with_btc(client, coins, INTERVAL[str(sys.argv[1])], "July 14, 2017 UTC",qty=str(sys.argv[2]))
 
