@@ -53,6 +53,6 @@ if __name__ == "__main__":
         with open("future_coins.json", mode="r") as f:
             data = f.read()
             coins = json.loads(data)
-        print(coins)
-        get_price_with_btc(client, coins, INTERVAL[str(sys.argv[1])], "July 14, 2017 UTC",qty=str(sys.argv[2]))
+            print(sorted(coins))
+        #  get_price_with_btc(client, coins, INTERVAL[str(sys.argv[1])], "July 14, 2017 UTC",qty=str(sys.argv[2]))
 
