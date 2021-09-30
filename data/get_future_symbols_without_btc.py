@@ -7,12 +7,18 @@ import json
 import os
 from binance.client import Client
 
-api_key=os.environ["API_KEY"]
-api_secret=os.environ["API_SECRET"]
+api_key = os.environ["API_KEY"]
+api_secret = os.environ["API_SECRET"]
 
-def get_symbol_in_future(client:Client, qty: str = "USDT") -> list[str]:
+
+def get_symbol_in_future(client: Client, qty: str = "USDT") -> list[str]:
     f_info = client.futures_exchange_info()
-    return [item["baseAsset"] for item in f_info["symbols"] if item["symbol"].endswith(qty) and item["baseAsset"] != "BTC"]
+    return [
+        item["baseAsset"]
+        for item in f_info["symbols"]
+        if item["symbol"].endswith(qty) and item["baseAsset"] != "BTC"
+    ]
+
 
 client = Client(api_key=api_key, api_secret=api_secret)
 symbols = get_symbol_in_future(client)

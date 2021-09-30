@@ -26,10 +26,13 @@ INTERVAL = {
     "1d": Client.KLINE_INTERVAL_1DAY,
     "3d": Client.KLINE_INTERVAL_3DAY,
     "1w": Client.KLINE_INTERVAL_1DAY,
-    "1M": Client.KLINE_INTERVAL_1MONTH
+    "1M": Client.KLINE_INTERVAL_1MONTH,
 }
 
-def get_price_with_btc(client:Client, coins:list[str], interval: str, start: str, qty:str = "USDT"):
+
+def get_price(
+    client: Client, coins: list[str], interval: str, start: str, qty: str = "USDT"
+):
     for coin in coins:
         symbol = coin + qty
         filename = "{}_{}.csv".format(symbol, interval)
@@ -37,7 +40,22 @@ def get_price_with_btc(client:Client, coins:list[str], interval: str, start: str
             klines = client.get_historical_klines_generator(symbol, interval, start)
             with open(filename, "w") as csv_writer:
                 writer = csv.writer(csv_writer)
-                writer.writerow(["open_ts", "open_price", "highest_price", "lowest_price", "close_price", "volume", "close_ts", "turnover", "trade_num", "buy_vol", "buy_turnover","ignore"])
+                writer.writerow(
+                    [
+                        "open_ts",
+                        "open_price",
+                        "highest_price",
+                        "lowest_price",
+                        "close_price",
+                        "volume",
+                        "close_ts",
+                        "turnover",
+                        "trade_num",
+                        "buy_vol",
+                        "buy_turnover",
+                        "ignore",
+                    ]
+                )
                 for kline in klines:
                     print(kline)
                     writer.writerow(kline)
@@ -45,6 +63,7 @@ def get_price_with_btc(client:Client, coins:list[str], interval: str, start: str
         except Exception as e:
             print(e)
             continue
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] in ["-h", "--help", "help"]:
@@ -58,5 +77,10 @@ if __name__ == "__main__":
             data = f.read()
             coins = json.loads(data)
             print(sorted(coins))
-        get_price_with_btc(client, sorted(coins), INTERVAL[str(sys.argv[1])], "July 14, 2017 UTC",qty=str(sys.argv[2]))
-
+        get_price(
+            client,
+            sorted(coins),
+            INTERVAL[str(sys.argv[1])],
+            "July 14, 2017 UTC",
+            qty=str(sys.argv[2]),
+        )
